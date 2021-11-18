@@ -31,10 +31,6 @@ class Rutas extends React.Component {
         })
     }
 
-    openEditForm = (value) => {
-        //
-    }
-
     componentDidMount() {
         this.getFilter();
         this.getRutas();
@@ -101,8 +97,9 @@ class Rutas extends React.Component {
                                     <h5 className="card-title">Lista de Vuelos</h5>
                                 </div>
                                 <div className="col-8">
-                                    <button className="btn btn-buscar" routerlink='/vuelos/create'
-                                        style={{ float: "right", width: "10rem" }}>Crear</button>
+                                    <Link to={'/Vuelos/create'}>
+                                    <button className="btn btn-buscar" style={{ float: "right", width: "10rem" }}>Crear</button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

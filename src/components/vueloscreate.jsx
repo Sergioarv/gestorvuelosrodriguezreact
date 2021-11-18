@@ -1,12 +1,12 @@
-import axios from 'axios';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import NavBar from './nav-bar';
+import axios from "axios";
+import React from "react";
+import { Link } from "react-router-dom";
+import NavBar from "./nav-bar";
 
 const urlRutas = 'http://localhost:8080/ruta';
 const urlAerolineas = 'http://localhost:8080/aerolinea';
 
-export default class VuelosEdit extends React.Component {
+class VuelosCreate extends React.Component {
 
     constructor(props) {
         super(props)
@@ -15,7 +15,6 @@ export default class VuelosEdit extends React.Component {
             aerolineaList: [],
             rutasList: [],
         };
-
     }
 
     getAerolinea = () => {
@@ -41,7 +40,7 @@ export default class VuelosEdit extends React.Component {
                 <NavBar />
                 <div className="container" style={{ margin: "15px", marginLeft: "10%" }}>
                     <div className="card">
-                        <div className="card-header"><h5>Editar vuelo</h5>
+                        <div className="card-header"><h5>Crear vuelo</h5>
                         </div>
                         <div className="card-body">
                             <form className="form-group">
@@ -83,7 +82,7 @@ export default class VuelosEdit extends React.Component {
                         <div className="card-footer">
                             <div className="row" style={{ float: "right" }}>
                                 <div className="col-12">
-                                    <button className="btn btn-success">Guardar Cambios</button>
+                                    <button className="btn btn-success">Guardar</button>
                                     &nbsp;
                                     <Link to='/Vuelos'>
                                         <button className="btn btn-danger">Cancelar</button>
@@ -94,6 +93,8 @@ export default class VuelosEdit extends React.Component {
                     </div>
                 </div>
             </>
-        );
+        )
     }
 }
+
+export default VuelosCreate;
