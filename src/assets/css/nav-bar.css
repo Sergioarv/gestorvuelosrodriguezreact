@@ -12,8 +12,14 @@
     border-color: rgb(65, 105, 225, 0.0);
 }
 
-.active button {
+.active button{
     color: whitesmoke;
     background-color: #0064be;
+    border-color: rgb(65, 105, 225, 0.0);
+}
+
+.nav-pills .nav-link.active {
+    color: #007bff;
+    background-color: #0065be00;
     border-color: rgb(65, 105, 225, 0.0);
 }

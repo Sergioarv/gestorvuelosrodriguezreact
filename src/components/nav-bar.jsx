@@ -1,19 +1,7 @@
 import React from "react";
-import '../assets/css/nav-bar.css'
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Rutas from "./rutas";
-import Inicio from "./inicio";
+import { NavLink } from "react-router-dom";
+import '../assets/css/nav-bar.css';
 
-const route = () => {
-    return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Rutas />} />
-                <Route path="/Inicio" element={<Inicio />} />
-            </Routes>
-        </Router>
-    );
-}
 
 class NavBar extends React.Component {
     render() {
@@ -21,10 +9,28 @@ class NavBar extends React.Component {
             <>
                 <nav className="navbar navbar-dark bg-dark">
                     <div className="nav" style={{ margin: "3px" }}>
-                        {/* <em className="far fa-paper-plane"></em> */}
-                        <route>
-                            
-                        </route>
+                        <ul className="nav nav-pills">
+                            <li className="nav-item" >
+                                <a href="/Inicio" className="nav-link"><em className="far fa-paper-plane"></em>
+                                    &nbsp;Gestor de Vuelos Rodriguez
+                                </a>
+                            </li>
+                            <li className="nav-item" role="presentation">
+                                <NavLink to={'/Inicio'}>
+                                    <button className="btn btn-primary" >Inicio</button>
+                                </NavLink>
+                            </li> &nbsp;
+                            <li className="nav-item" role="presentation">
+                                <NavLink to={'/Rutas'}>
+                                    <button className="btn btn-primary">Rutas</button>
+                                </NavLink>
+                            </li> &nbsp;
+                            <li className="nav-item" role="presentation">
+                                <NavLink to={'/Vuelos'}>
+                                    <button className="btn btn-primary">Vuelos</button>
+                                </NavLink>
+                            </li>
+                        </ul>
                     </div>
                 </nav>
             </>
