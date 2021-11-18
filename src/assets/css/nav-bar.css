@@ -6,7 +6,7 @@
     color: #0064be;
 }
 
-.btn, .btn-primary {
+.NavBar .btn, .btn-primary {
     color: #0064be;
     background-color: rgb(65, 105, 225, 0.0);
     border-color: rgb(65, 105, 225, 0.0);

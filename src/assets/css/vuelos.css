@@ -1,0 +1,21 @@
+.thead-col {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #454d55;
+}
+
+button.btn.btn-edit{
+    color: seashell;
+    background-color: #8bb9dd;
+    border-color: #8bb9dd;
+}
+
+button.btn.btn-buscar{
+    color: whitesmoke;
+    background-color: #0064be;
+    border-color: rgb(65, 105, 225, 0.0);
+}
+
+.invalid, .feedback {
+    color: red;
+}

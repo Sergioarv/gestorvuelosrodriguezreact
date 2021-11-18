@@ -1,7 +1,33 @@
 import React from 'react';
 import NavBar from './nav-bar';
+import axios from 'axios';
 
-class Rutas extends React.Component {
+const urlRutas = 'http://localhost:8080/ruta';
+
+export default class Rutas extends React.Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            rutasList: []
+        }
+    }
+
+    getAllRutas = () => {
+        axios.get(urlRutas).then(resp => {
+            this.setState({ rutasList: resp.data });
+        });
+    }
+
+    prueba = (value) => {
+       return console.log("La prueba", value);
+    }
+
+    componentDidMount() {
+        this.getAllRutas();
+    }
+
     render() {
         return (
             <>
@@ -20,17 +46,23 @@ class Rutas extends React.Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    {this.state.rutasList.map(value => {
+                                        return (
+                                        <tr key={value.idRuta} onClick={() => this.prueba(value)}>
+                                            <td>{value.idRuta}</td>
+                                            <td>{value.origen.nombreCiudad}</td>
+                                            <td>{value.destino.nombreCiudad}</td>
+                                        </tr>
+                                        )
+                                    })}
+                                </tbody>
+                                <tfoot>
                                     <tr>
                                         <td colSpan="5">
                                             <p>No hay ruta a listar</p>
                                         </td>
                                     </tr>
-                                </tbody>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -39,5 +71,3 @@ class Rutas extends React.Component {
         );
     }
 }
-
-export default Rutas;
