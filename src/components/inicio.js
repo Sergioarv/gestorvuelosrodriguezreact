@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import NavBar from "./nav-bar";
 
-class Inicio extends React.Component {
+export default class Inicio extends React.Component {
     render() {
         return (
             <>
@@ -22,7 +22,7 @@ class Inicio extends React.Component {
                             </Link>
                         </div>
                         <div className="col-sm-3">
-                            <Link to={'/Inicio'}>
+                            <Link to={'/Vuelos'}>
                                 <div className="card text-center" style={{ maxWidth: "18rem" }}>
                                     {/* Imagen tomada de la base de imagenes shutterstock */}
                                     <img src="https://image.shutterstock.com/z/stock-vector-airplane-vector-icon-1297054468.jpg"
@@ -39,5 +39,3 @@ class Inicio extends React.Component {
         );
     }
 }
-
-export default Inicio

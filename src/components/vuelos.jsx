@@ -2,16 +2,20 @@ import React from 'react';
 import NavBar from './nav-bar';
 import '../assets/css/vuelos.css';
 import axios from 'axios';
+import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const urlVuelo = 'http://localhost:8080/vuelo';
+const urlRutas = 'http://localhost:8080/ruta';
 
 class Rutas extends React.Component {
 
-    constructor() {
-        super()
-
+    constructor(props) {
+        super(props)
+        
         this.state = {
-            vuelosList: []
+            vuelosList: [],
+            rutasList: []
         }
     }
 
@@ -21,8 +25,19 @@ class Rutas extends React.Component {
         })
     }
 
+    getRutas = () => {
+        axios.get(urlRutas).then(resp => {
+            this.setState({ rutasList: resp.data });
+        })
+    }
+
+    openEditForm = (value) => {
+        //
+    }
+
     componentDidMount() {
         this.getFilter();
+        this.getRutas();
     }
 
     render() {
@@ -53,9 +68,11 @@ class Rutas extends React.Component {
                                         <label>Ruta:</label>
                                         <select className="form-control" formcontrolname="ruta" required >
                                             <option defaultValue value="">Seleccione Una ruta</option>
-                                            <option value="">
-                                                De: nombreCiudad a nombreCiudad
-                                            </option>
+                                            {this.state.rutasList.map( ruta => (
+                                                <option key={ruta.idRuta} value={ruta.idVuta}>
+                                                    De: {ruta.origen.nombreCiudad} a: {ruta.destino.nombreCiudad}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
                                 </div>
@@ -66,9 +83,9 @@ class Rutas extends React.Component {
                                 </div>
                                 <br />
                                 <div className="row">
-                                    <div className="col-12">
+                                    <div className="col-12" style={{ textAlign: "left" }}>
                                         <button className="btn btn-buscar">Buscar</button>
-                                        &nbsp;
+                                        &nbsp;&nbsp;
                                         <button className="btn btn-secondary">Limpiar</button>
                                     </div>
                                 </div>
@@ -84,7 +101,7 @@ class Rutas extends React.Component {
                                     <h5 className="card-title">Lista de Vuelos</h5>
                                 </div>
                                 <div className="col-8">
-                                    <button className="btn btn-primary" routerlink='/vuelos/create'
+                                    <button className="btn btn-buscar" routerlink='/vuelos/create'
                                         style={{ float: "right", width: "10rem" }}>Crear</button>
                                 </div>
                             </div>
@@ -106,13 +123,16 @@ class Rutas extends React.Component {
                                         return (
                                             <tr key={value.idVuelo}>
                                                 <td>{value.idVuelo}</td>
-                                                <td>{value.fecha_vuelo.toLocaleDateString}</td>
+                                                <td>{moment(value.fecha_vuelo).format('DD-MM-yyyy')}</td>
                                                 <td>{value.aerolinea_idAerolinea.nombreAerolinea}</td>
                                                 <td>{value.ruta_idRuta.origen.nombreCiudad} - {value.ruta_idRuta.destino.nombreCiudad}
                                                 </td>
                                                 <td>
-                                                    <button className="btn btn-edit"><em className="far fa-edit"></em>
-                                                        Editar</button>&nbsp; &nbsp;
+                                                    <Link to={`/Vuelos/editar/${value.idVuelo}`}>
+                                                    <button className="btn btn-edit">
+                                                        <em className="far fa-edit"></em> Editar</button>
+                                                    </Link>
+                                                    &nbsp; &nbsp;
                                                     <button className="btn btn-danger"><em className="far fa-trash-alt" ></em> Eliminar</button>
                                                 </td>
                                             </tr>
