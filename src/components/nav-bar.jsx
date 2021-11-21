@@ -26,7 +26,7 @@ class NavBar extends React.Component {
                                 </NavLink>
                             </li> &nbsp;
                             <li className="nav-item" role="presentation">
-                                <NavLink to={'/Vuelos'}>
+                                <NavLink to={`/Vuelos`}>
                                     <button className="btn btn-primary">Vuelos</button>
                                 </NavLink>
                             </li>
