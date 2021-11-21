@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import '../assets/css/nav-bar.css';
+import { FontAwesomeIcon }  from '@fortawesome/react-fontawesome'
+import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 
 
 class NavBar extends React.Component {
@@ -11,7 +13,7 @@ class NavBar extends React.Component {
                     <div className="nav" style={{ margin: "3px" }}>
                         <ul className="nav nav-pills">
                             <li className="nav-item" >
-                                <a href="/Inicio" className="nav-link"><em className="far fa-paper-plane"></em>
+                                <a href="/Inicio" className="nav-link"><FontAwesomeIcon icon={faPaperPlane}/>
                                     &nbsp;Gestor de Vuelos Rodriguez
                                 </a>
                             </li>

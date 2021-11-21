@@ -95,7 +95,7 @@ export default function VuelosEdit({ props }) {
                             <div className="row">
                                 <div className="col-3" hidden>
                                     <label>Id:</label>
-                                    <input type="text" className="form-control" value="" />
+                                    <input type="text" className="form-control" defaultValue="" />
                                 </div>
                                 <div className="col-4">
                                     <label>Fecha del vuelo:</label>
@@ -104,7 +104,7 @@ export default function VuelosEdit({ props }) {
                                 <div className="col-4">
                                     <label>Aerolinea:</label>
                                     <select className="form-control" name="aerolinea" value={aerolinea} onChange={(e) => obtenerDatos(e)}>
-                                        <option value='' disabled >Seleccione Una Aerolinea</option>
+                                        <option defaultValue='' disabled >Seleccione Una Aerolinea</option>
                                         {aerolineaList.map(aero => (
                                             <option key={aero.id_aerolinea} value={aero.id_aerolinea}>
                                                 {aero.nombreAerolinea}
@@ -115,7 +115,7 @@ export default function VuelosEdit({ props }) {
                                 <div className="col-4">
                                     <label>Ruta:</label>
                                     <select className="form-control" name="ruta_idRuta" value={ruta_idRuta} onChange={(e) => obtenerDatos(e)}>
-                                        <option value='' disabled >Seleccione Una ruta</option>
+                                        <option defaultValue='' disabled >Seleccione Una ruta</option>
                                         {rutasList.map(ruta => (
                                             <option key={ruta.idRuta} value={ruta.idRuta}>
                                                 De: {ruta.origen.nombreCiudad} a: {ruta.destino.nombreCiudad}

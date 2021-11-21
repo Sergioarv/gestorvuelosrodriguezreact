@@ -88,7 +88,7 @@ function VuelosCreate() {
                             <div className="row">
                                 <div className="col-3" hidden>
                                     <label>Id:</label>
-                                    <input type="text" className="form-control" value="" />
+                                    <input type="text" className="form-control" defaultValue="" />
                                 </div>
                                 <div className="col-4">
                                     <label>Fecha del vuelo:</label>

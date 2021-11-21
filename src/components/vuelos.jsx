@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import '../assets/css/vuelos.css';
 import axios from 'axios';
 import moment from 'moment';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarPlus, faEdit, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import { faBroom, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const urlVuelo = 'http://localhost:8080/vuelo';
 const urlRutas = 'http://localhost:8080/ruta';
@@ -17,7 +20,6 @@ export default function Vuelos() {
     const [ruta_idRuta, setRuta_idRuta] = useState('');
 
     let parameter = useParams();
-    let navigate = useNavigate();
 
     const buscar = (e) => {
         setMensajeError(validarParametrosFiltro());
@@ -74,7 +76,7 @@ export default function Vuelos() {
             setRuta_idRuta(e.target.value);
         }
 
-        console.log(validarParametrosFiltro());
+        validarParametrosFiltro();
     }
 
     const eliminar = (value) => { 
@@ -152,9 +154,11 @@ export default function Vuelos() {
                             </div>
                             <div className="row">
                                 <div className="col-12" style={{ textAlign: "left" }}>
-                                    <button className="btn btn-buscar" onClick={(e) => buscar(e)}>Buscar</button>
+                                    <button className="btn btn-buscar" onClick={(e) => buscar(e)}>
+                                        <FontAwesomeIcon icon={faSearch}/> Buscar</button>
                                     &nbsp;&nbsp;
-                                    <button className="btn btn-secondary" onClick={(e) => limpiar(e)}>Limpiar</button>
+                                    <button className="btn btn-secondary" onClick={(e) => limpiar(e)}>
+                                        <FontAwesomeIcon icon={faBroom}/> Limpiar</button>
                                 </div>
                             </div>
                         </form>
@@ -170,7 +174,8 @@ export default function Vuelos() {
                             </div>
                             <div className="col-8">
                                 <Link to={'/Vuelos/create'}>
-                                    <button className="btn btn-buscar" style={{ float: "right", width: "10rem" }}>Crear</button>
+                                    <button className="btn btn-buscar" style={{ float: "right", width: "10rem" }}>
+                                        <FontAwesomeIcon icon={faCalendarPlus}/> Crear</button>
                                 </Link>
                             </div>
                         </div>
@@ -200,10 +205,11 @@ export default function Vuelos() {
                                                 <td>
                                                     <Link to={`/Vuelos/editar/${value.idVuelo}`}>
                                                         <button className="btn btn-edit">
-                                                            <em className="far fa-edit"></em> Editar</button>
+                                                            <FontAwesomeIcon icon={faEdit}/> Editar</button>
                                                     </Link>
                                                     &nbsp; &nbsp;
-                                                    <button className="btn btn-danger" onClick={() => eliminar(value)}><em className="far fa-trash-alt" ></em> Eliminar</button>
+                                                    <button className="btn btn-danger" onClick={() => eliminar(value)}>
+                                                        <FontAwesomeIcon icon={faTrashAlt}/> Eliminar</button>
                                                 </td>
                                             </tr>
                                         )
