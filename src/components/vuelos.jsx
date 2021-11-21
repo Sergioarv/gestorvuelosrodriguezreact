@@ -12,16 +12,51 @@ class Rutas extends React.Component {
 
     constructor(props) {
         super(props)
-        
+
         this.state = {
             vuelosList: [],
-            rutasList: []
+            rutasList: [],
+            formFilter: {
+                fecha_vuelo: localStorage.getItem('fecha_vuelo') ? JSON.parse(localStorage.getItem('fecha_vuelo')) : '',
+                conector: localStorage.getItem('conector') ? JSON.parse(localStorage.getItem('conector')) : '',
+                ruta_idRuta: localStorage.getItem('ruta_idRuta') ? JSON.parse(localStorage.getItem('ruta_idRuta')) : ''
+            },
+            mensajeError: '',
         }
     }
 
-    getFilter = () => {
+    buscar = () => {
         axios.get(urlVuelo).then(resp => {
-            this.setState({ vuelosList: resp.data });
+            this.setState({ vuelosList: resp.data }, () => {
+                localStorage.setItem('fecha_vuelo', JSON.stringify(this.state.formFilter.fecha_vuelo));
+                localStorage.setItem('conector', JSON.stringify(this.state.formFilter.conector));
+                localStorage.setItem('ruta_idRuta', JSON.stringify(this.state.formFilter.ruta_idRuta));
+                localStorage.setItem('vuelosList', JSON.stringify(this.state.vuelosList));
+            });
+        });
+    }
+
+    validarParametrosFiltro(formFilter) {
+        if (formFilter.fecha_vuelo !== '' && formFilter.ruta_idRuta !== '' && formFilter.conector === '') {
+            return "Por favor seleccione un conector";
+        } else if (formFilter.fecha_vuelo === '' && formFilter.ruta_idRuta === '' && formFilter.conector !== '') {
+            return "Por favor seleccione una fecha y una ruta";
+        } else if (formFilter.conector === '' && formFilter.fecha_vuelo === '' && formFilter.ruta_idRuta === '') {
+            return "Por favor seleccione un parámetro de búsqueda";
+        } else if ((formFilter.conector !== '' && formFilter.fecha_vuelo !== '' && formFilter.ruta_idRuta === '') ||
+            (formFilter.conector !== '' && formFilter.fecha_vuelo === '' && formFilter.ruta_idRuta !== '')) {
+            return "Por favor seleccione los 3 parametros de busqueda o quite el conector";
+        } else {
+            return '';
+        }
+    }
+
+    obtenerDatos = (e) => {
+        this.setState({
+            formFilter: {
+                ...this.state.formFilter,
+                [e.target.name]: e.target.value,
+            },
         })
     }
 
@@ -31,9 +66,20 @@ class Rutas extends React.Component {
         })
     }
 
+    getAllVuelos = () => {
+        if (localStorage.getItem('vuelosList') != '') {
+            axios.get(urlVuelo).then(resp => {
+                this.setState({ vuelosList: resp.data });
+            });
+        }else{
+            this.buscar();
+            
+        }
+    }
+
     componentDidMount() {
-        this.getFilter();
         this.getRutas();
+        this.getAllVuelos();
     }
 
     render() {
@@ -46,15 +92,15 @@ class Rutas extends React.Component {
                             <h5>Busqueda Avanzada</h5>
                         </div>
                         <div className="card-body">
-                            <form className="form-group">
+                            <form>
                                 <div className="row">
                                     <div className="col-4">
                                         <label>Fecha del Vuelo:</label>
-                                        <input type="date" className="form-control" formcontrolname="fecha" required />
+                                        <input type="date" className="form-control" name="fecha_vuelo" onChange={(e) => this.obtenerDatos(e)} value={this.state.formFilter.fecha_vuelo} />
                                     </div>
                                     <div className="col-4">
                                         <label>Conector:</label>
-                                        <select className="form-control" formcontrolname="conector" required>
+                                        <select className="form-control" name="conector" onChange={(e) => this.obtenerDatos(e)}>
                                             <option defaultValue value="">Seleccione un Conector</option>
                                             <option value="AND">Y</option>
                                             <option value="OR">O</option>
@@ -62,10 +108,10 @@ class Rutas extends React.Component {
                                     </div>
                                     <div className="col-4">
                                         <label>Ruta:</label>
-                                        <select className="form-control" formcontrolname="ruta" required >
+                                        <select className="form-control" name="ruta_idRuta" onChange={(e) => this.obtenerDatos(e)}>
                                             <option defaultValue value="">Seleccione Una ruta</option>
-                                            {this.state.rutasList.map( ruta => (
-                                                <option key={ruta.idRuta} value={ruta.idVuta}>
+                                            {this.state.rutasList.map(ruta => (
+                                                <option key={ruta.idRuta} value={ruta.idRuta}>
                                                     De: {ruta.origen.nombreCiudad} a: {ruta.destino.nombreCiudad}
                                                 </option>
                                             ))}
@@ -74,13 +120,17 @@ class Rutas extends React.Component {
                                 </div>
                                 <div className="row">
                                     <div className="invalid feedback col-10">
-                                        mensaje
+                                        {this.state.mensajeError !== '' ? (
+                                            <p>{this.state.mensajeError}</p>
+                                        ) : (
+                                            <p></p>
+                                        )}
                                     </div>
                                 </div>
                                 <br />
                                 <div className="row">
                                     <div className="col-12" style={{ textAlign: "left" }}>
-                                        <button className="btn btn-buscar">Buscar</button>
+                                        <button className="btn btn-buscar" onClick={() => this.buscar()}>Buscar</button>
                                         &nbsp;&nbsp;
                                         <button className="btn btn-secondary">Limpiar</button>
                                     </div>
@@ -98,7 +148,7 @@ class Rutas extends React.Component {
                                 </div>
                                 <div className="col-8">
                                     <Link to={'/Vuelos/create'}>
-                                    <button className="btn btn-buscar" style={{ float: "right", width: "10rem" }}>Crear</button>
+                                        <button className="btn btn-buscar" style={{ float: "right", width: "10rem" }}>Crear</button>
                                     </Link>
                                 </div>
                             </div>
@@ -116,30 +166,33 @@ class Rutas extends React.Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.vuelosList.map(value => {
-                                        return (
-                                            <tr key={value.idVuelo}>
-                                                <td>{value.idVuelo}</td>
-                                                <td>{moment(value.fecha_vuelo).format('DD-MM-yyyy')}</td>
-                                                <td>{value.aerolinea_idAerolinea.nombreAerolinea}</td>
-                                                <td>{value.ruta_idRuta.origen.nombreCiudad} - {value.ruta_idRuta.destino.nombreCiudad}
-                                                </td>
-                                                <td>
-                                                    <Link to={`/Vuelos/editar/${value.idVuelo}`}>
-                                                    <button className="btn btn-edit">
-                                                        <em className="far fa-edit"></em> Editar</button>
-                                                    </Link>
-                                                    &nbsp; &nbsp;
-                                                    <button className="btn btn-danger"><em className="far fa-trash-alt" ></em> Eliminar</button>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })}
-                                    <tr>
-                                        <td colSpan="5">
-                                            <p style={{ textAlign: "center", fontSize: "18px", color: "red" }}>No hay lista de Vuelos</p>
-                                        </td>
-                                    </tr>
+                                    {this.state.vuelosList.length > 0 ? (
+                                        this.state.vuelosList.map(value => {
+                                            return (
+                                                <tr key={value.idVuelo}>
+                                                    <td>{value.idVuelo}</td>
+                                                    <td>{moment(value.fecha_vuelo).format('DD-MM-yyyy')}</td>
+                                                    <td>{value.aerolinea_idAerolinea.nombreAerolinea}</td>
+                                                    <td>{value.ruta_idRuta.origen.nombreCiudad} - {value.ruta_idRuta.destino.nombreCiudad}
+                                                    </td>
+                                                    <td>
+                                                        <Link to={`/Vuelos/editar/${value.idVuelo}`}>
+                                                            <button className="btn btn-edit">
+                                                                <em className="far fa-edit"></em> Editar</button>
+                                                        </Link>
+                                                        &nbsp; &nbsp;
+                                                        <button className="btn btn-danger"><em className="far fa-trash-alt" ></em> Eliminar</button>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="5">
+                                                <p style={{ textAlign: "center", fontSize: "18px", color: "red" }}>No hay vuelos a listar</p>
+                                            </td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>

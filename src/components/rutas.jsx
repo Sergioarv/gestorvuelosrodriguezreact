@@ -21,7 +21,7 @@ export default class Rutas extends React.Component {
     }
 
     prueba = (value) => {
-       return console.log("La prueba", value);
+        return console.log("La prueba", value);
     }
 
     componentDidMount() {
@@ -46,23 +46,24 @@ export default class Rutas extends React.Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.rutasList.map(value => {
-                                        return (
-                                        <tr key={value.idRuta} onClick={() => this.prueba(value)}>
-                                            <td>{value.idRuta}</td>
-                                            <td>{value.origen.nombreCiudad}</td>
-                                            <td>{value.destino.nombreCiudad}</td>
+                                    {this.state.rutasList.length > 0 ? (
+                                        this.state.rutasList.map(value => {
+                                            return (
+                                                <tr key={value.idRuta} onClick={() => this.prueba(value)}>
+                                                    <td>{value.idRuta}</td>
+                                                    <td>{value.origen.nombreCiudad}</td>
+                                                    <td>{value.destino.nombreCiudad}</td>
+                                                </tr>
+                                            )
+                                        })
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="5">
+                                            <p style={{ textAlign: "center", fontSize: "18px", color: "red" }}>No hay rutas a listar</p>
+                                            </td>
                                         </tr>
-                                        )
-                                    })}
+                                    )}
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colSpan="5">
-                                            <p>No hay ruta a listar</p>
-                                        </td>
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>
