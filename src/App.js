@@ -1,14 +1,13 @@
 import './assets/css/App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import NavBar from "./components/nav-bar";
 import AppRouting from './routing/AppRouting';
+import NavBar from './components/nav-bar';
 
 function App() {
-  return (
-    <div className="App">
-      <NavBar />
-      <AppRouting/>
-    </div>
+  return (<>
+    <NavBar />
+    <AppRouting />
+  </>
   );
 }
 

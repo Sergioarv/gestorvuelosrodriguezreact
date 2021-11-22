@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-class Inicio extends React.Component {
-    render() {
-        return (
+export default function Inicio() {
+    return (
+        <>
             <div className="container" style={{ margin: "15px" }}>
                 <div className="row">
                     <div className="col-sm-3">
-                        <Link to={'/'}>
+                        <Link to={'/Rutas'}>
                             <div className="card text-center" style={{ maxWidth: "18rem" }}>
                                 {/* Imagen tomada de la base de imagenes shutterstock */}
                                 <img src='https://image.shutterstock.com/z/stock-vector--d-top-view-of-a-map-with-destination-location-point-aerial-clean-top-view-of-the-day-time-city-1890043630.jpg'
@@ -19,7 +19,7 @@ class Inicio extends React.Component {
                         </Link>
                     </div>
                     <div className="col-sm-3">
-                        <Link to={'/Inicio'}>
+                        <Link to={'/Vuelos'}>
                             <div className="card text-center" style={{ maxWidth: "18rem" }}>
                                 {/* Imagen tomada de la base de imagenes shutterstock */}
                                 <img src="https://image.shutterstock.com/z/stock-vector-airplane-vector-icon-1297054468.jpg"
@@ -32,8 +32,6 @@ class Inicio extends React.Component {
                     </div>
                 </div>
             </div>
-        );
-    }
+        </>
+    );
 }
-
-export default Inicio

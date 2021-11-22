@@ -6,14 +6,21 @@
     color: #0064be;
 }
 
-.btn, .btn-primary {
+.active button{
+    color: whitesmoke;
+    background-color: #0064be;
+    border-color: rgb(65, 105, 225, 0.0);
+}
+
+.Navbar.btn, .btn-primary {
     color: #0064be;
     background-color: rgb(65, 105, 225, 0.0);
     border-color: rgb(65, 105, 225, 0.0);
 }
 
-.active button {
-    color: whitesmoke;
-    background-color: #0064be;
+
+.nav-pills .nav-link.active {
+    color: #007bff;
+    background-color: #0065be00;
     border-color: rgb(65, 105, 225, 0.0);
 }
